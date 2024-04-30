@@ -3,36 +3,43 @@ const taskList = [
   { id: 2, task: "Fix bugs on project" },
   { id: 3, task: "join php class" },
 ];
+
 readDataFromDatabase();
+
 function readDataFromDatabase() {
   addingNewTask();
   const uniqueTasks = new Map();
-  //looping on list to check if task alerady exits , or not ,set it to map
+
+  // Loop through the taskList and add unique tasks to the Map
   taskList.forEach((task) => {
-    uniqueTasks.set(task.id, task);
+    if (!uniqueTasks.has(task.id)) {
+      uniqueTasks.set(task.id, task);
+    }
   });
+
   const myTasks = Array.from(uniqueTasks.values());
   localStorage.setItem("tasks", JSON.stringify(myTasks));
 
   const displayedTasks = JSON.parse(localStorage.getItem("tasks"));
-  console.log(displayedTasks);
+
   let html = "";
   displayedTasks.forEach((usertask) => {
     html += `
       <tr class="row-1">
-          <td>
+          <td class="flex-task">
              <span>${usertask.task}</span>
-            <button class="btn-edit">Edit</button>
-            <button class="btn-delete">Delete</button>
+              <div class="gap">
+                <button class="btn-edit">Edit</button>
+                <button class="btn-delete" data-task-id="${usertask.id}">Delete</button>
+              </div>
           </td>
         </tr>
-     
-     
      `;
   });
   document.querySelector(".added").innerHTML = html;
+
+  setupDeleteButtons(); // Set up event listeners for delete buttons
 }
-//adding new task to the task list ...
 
 function addingNewTask() {
   const userTask = document.querySelector("#task").value;
@@ -41,8 +48,15 @@ function addingNewTask() {
     task: userTask,
   };
 
-  taskList.push(newTask);
+  // Check if the task already exists in the taskList
+  if (!taskList.some((task) => task.id === newTask.id)) {
+    taskList.push(newTask);
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+  } else {
+    console.log("Task already exists!");
+  }
 }
+
 function formHandler() {
   const form = document.getElementById("form");
   form.addEventListener("submit", function (event) {
@@ -55,3 +69,22 @@ addtaskButton.addEventListener("click", () => {
   formHandler();
   readDataFromDatabase();
 });
+
+function deleteTask(taskId) {
+  const taskIndex = taskList.findIndex((task) => task.id === taskId);
+  if (taskIndex !== -1) {
+    taskList.splice(taskIndex, 1);
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+    readDataFromDatabase(); // Update the displayed tasks after deletion
+  }
+}
+
+function setupDeleteButtons() {
+  const deleteButtons = document.querySelectorAll(".btn-delete");
+  deleteButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const taskId = parseInt(btn.dataset.taskId);
+      deleteTask(taskId);
+    });
+  });
+}
