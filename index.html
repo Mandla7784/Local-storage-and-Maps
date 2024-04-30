@@ -1,18 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <form action="">
-        <table>
-            <tr>
-                <td><input type="text" placeholder="add Tod"></td>
-                <button class="btn-add">Add</button>
-            </tr>
-        </table>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: whitesmoke;
+      }
+      body {
+        background-color: rgb(19, 13, 19);
+      }
+      #form {
+        display: flex;
+        flex-direction: column;
+        width: 350px;
+        height: 400px;
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        background-color: rgb(46, 38, 44);
+        border-radius: 0.6em;
+        align-items: center;
+      }
+      .row-1 {
+        display: flex;
+        gap: 2px;
+        width: 100%;
+        margin-top: 0.6em;
+      }
+      .row-1 input {
+        background-color: transparent;
+        padding: 0.4em 0.2em;
+      }
+      .btn-add {
+        background-color: rgb(4, 233, 134);
+        color: white;
+        padding: 0.3em 0.6em;
+        border-radius: 0.2em;
+        border: 0;
+      }
+      .btn-edit {
+        background-color: rgb(126, 9, 236);
+        color: white;
+        padding: 0.3em 0.6em;
+        border-radius: 0.2em;
+        border: 0;
+      }
+      .btn-delete {
+        background-color: rgb(243, 11, 31);
+        color: white;
+        padding: 0.3em 0.6em;
+        border-radius: 0.2em;
+        border: 0;
+      }
+      .added input {
+        background-color: transparent;
+        padding: 0.5em 0.2em;
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" id="form">
+      <table class="added-task">
+        <tr class="row-1">
+          <td>
+            <input type="text" id="task" placeholder="add Tod" />
+            <button class="btn-add">Add</button>
+          </td>
+        </tr>
+      </table>
+      <!-- added-tasks -->
+      <table class="added">
+        <tr class="row-1">
+          <td>
+            <input type="text" id="task" />
+            <button class="btn-edit">Edit</button>
+            <button class="btn-delete">Delete</button>
+          </td>
+        </tr>
+      </table>
     </form>
-</body>
+  </body>
 </html>
